@@ -37,6 +37,7 @@ public class SubmitButton extends View {
 
     private Paint bgPaint;
     private Paint loadingPaint;
+    private Paint resultPaint;
 
     private Path circlePath;
     private PathMeasure pathMeasure;
@@ -58,7 +59,6 @@ public class SubmitButton extends View {
 
     private ValueAnimator clickAnimator;
     private ValueAnimator loadingAnimator;
-    private ValueAnimator endAnimator;
     private ValueAnimator resultAnimator;
 
 
@@ -90,6 +90,12 @@ public class SubmitButton extends View {
         loadingPaint.setStyle(Paint.Style.STROKE);
         loadingPaint.setStrokeWidth(10);
         loadingPaint.setAntiAlias(true);
+
+        resultPaint = new Paint();
+        resultPaint.setColor(getResources().getColor(R.color.green1));
+        resultPaint.setStyle(Paint.Style.STROKE);
+        resultPaint.setStrokeWidth(10);
+        resultPaint.setAntiAlias(true);
     }
 
     /**
@@ -148,7 +154,7 @@ public class SubmitButton extends View {
             public void onAnimationUpdate(ValueAnimator animation) {
                 buttonWidth = (int) animation.getAnimatedValue();
                 if (buttonWidth == mHeight) {
-                    bgPaint.setColor(Color.GRAY);
+                    bgPaint.setColor(getResources().getColor(R.color.gray));
                 }
                 invalidate();
             }
@@ -173,6 +179,7 @@ public class SubmitButton extends View {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 buttonWidth = (int) animation.getAnimatedValue();
+                resultPaint.setAlpha(((buttonWidth - mHeight) * 255) / (mWidth - mHeight));
                 if (buttonWidth == mHeight) {
                     bgPaint.setColor(getResources().getColor(R.color.green1));
                 }
@@ -250,10 +257,10 @@ public class SubmitButton extends View {
         }
         if (ViewState == 3) {
             if (isSucceed) {
-                canvas.drawPath(resultPath1, bgPaint);
+                canvas.drawPath(resultPath1, resultPaint);
             } else {
-                canvas.drawPath(resultPath1, bgPaint);
-                canvas.drawPath(resultPath2, bgPaint);
+                canvas.drawPath(resultPath1, resultPaint);
+                canvas.drawPath(resultPath2, resultPaint);
             }
 
         }
