@@ -27,8 +27,6 @@ import com.example.submitbutton.R;
 
 public class SubmitButton extends View {
 
-    private static final String TAG = "SubmitButton";
-
     //View宽高
     private int mWidth;
     private int mHeight;
@@ -63,7 +61,6 @@ public class SubmitButton extends View {
     private ValueAnimator resultAnimator;
 
     private float loadValue;
-
 
     public SubmitButton(Context context) {
         this(context, null);
