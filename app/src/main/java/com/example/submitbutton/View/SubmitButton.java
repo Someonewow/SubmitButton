@@ -16,6 +16,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Toast;
 
 import com.example.submitbutton.R;
@@ -33,13 +34,13 @@ public class SubmitButton extends View {
     private int mHeight;
     private int buttonWidth;
 
-    private float percent;
-
     private Paint bgPaint;
     private Paint loadingPaint;
     private Paint resultPaint;
 
-    private Path circlePath;
+    private Path buttonPath;
+    private Path loadPath;
+    private Path dst;
     private PathMeasure pathMeasure;
 
     private Path resultPath1;
@@ -61,6 +62,8 @@ public class SubmitButton extends View {
     private ValueAnimator loadingAnimator;
     private ValueAnimator resultAnimator;
 
+    private float loadValue;
+
 
     public SubmitButton(Context context) {
         this(context, null);
@@ -72,7 +75,6 @@ public class SubmitButton extends View {
 
     public SubmitButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initPaint();
     }
 
     /**
@@ -82,49 +84,110 @@ public class SubmitButton extends View {
         bgPaint = new Paint();
         bgPaint.setColor(getResources().getColor(R.color.green1));
         bgPaint.setStyle(Paint.Style.STROKE);
-        bgPaint.setStrokeWidth(10);
+        bgPaint.setStrokeWidth(mHeight / 20);
         bgPaint.setAntiAlias(true);
 
         loadingPaint = new Paint();
         loadingPaint.setColor(getResources().getColor(R.color.green1));
         loadingPaint.setStyle(Paint.Style.STROKE);
-        loadingPaint.setStrokeWidth(10);
+        loadingPaint.setStrokeWidth(mHeight / 20);
         loadingPaint.setAntiAlias(true);
 
         resultPaint = new Paint();
         resultPaint.setColor(getResources().getColor(R.color.green1));
         resultPaint.setStyle(Paint.Style.STROKE);
-        resultPaint.setStrokeWidth(10);
+        resultPaint.setStrokeWidth(mHeight / 20);
         resultPaint.setAntiAlias(true);
     }
 
-    /**
-     * 初始化Path
-     */
-    private void initPath() {
-        circlePath = new Path();
-        RectF oval = new RectF(-mHeight / 2, -mHeight / 2, mHeight / 2, mHeight / 2);
-        circlePath.addArc(oval, 270, 359.999f);
-
-        pathMeasure = new PathMeasure();
-        pathMeasure.setPath(circlePath, true);
-
-
-    }
-
-    /**
-     * 初始化RectF
-     */
-    private void initRectF() {
+    private void initRecF() {
         oval1 = new RectF();
         oval2 = new RectF();
     }
 
-    /**
-     * 初始化Handler
-     */
-    private void initHandler() {
+    private void initPath() {
+        buttonPath = new Path();
+        loadPath = new Path();
+        dst = new Path();
+        RectF oval = new RectF(-mHeight / 2, -mHeight / 2, mHeight / 2, mHeight / 2);
+        loadPath.addArc(oval, 270, 359.999f);
+        pathMeasure = new PathMeasure();
+        pathMeasure.setPath(loadPath, true);
+    }
 
+    private void initValueAnimator() {
+        Animator.AnimatorListener listener = new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                switch (ViewState) {
+                    case 1:
+                        ViewState = 2;
+                        mHandler.sendEmptyMessage(0);
+                        break;
+                    case 2:
+                        mHandler.sendEmptyMessage(0);
+                        break;
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        };
+
+        clickAnimator = new ValueAnimator().ofInt(mWidth, mHeight);
+        clickAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                buttonWidth = (int) animation.getAnimatedValue();
+                if (buttonWidth == mHeight) {
+                    bgPaint.setColor(getResources().getColor(R.color.gray));
+                }
+                invalidate();
+            }
+        });
+        clickAnimator.setDuration(500);
+        clickAnimator.addListener(listener);
+
+        loadingAnimator = new ValueAnimator().ofFloat(0.0f, 1.0f);
+        loadingAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                loadValue = (float) animation.getAnimatedValue();
+                invalidate();
+            }
+        });
+        loadingAnimator.setDuration(2000);
+        loadingAnimator.addListener(listener);
+
+        resultAnimator = new ValueAnimator().ofInt(mHeight, mWidth);
+        resultAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                buttonWidth = (int) animation.getAnimatedValue();
+                resultPaint.setAlpha(((buttonWidth - mHeight) * 255) / (mWidth - mHeight));
+                if (buttonWidth == mHeight) {
+                    bgPaint.setColor(getResources().getColor(R.color.green1));
+                }
+                invalidate();
+            }
+        });
+        resultAnimator.setDuration(500);
+        resultAnimator.addListener(listener);
+    }
+
+    private void initHandler() {
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -144,114 +207,40 @@ public class SubmitButton extends View {
         };
     }
 
-    /**
-     * 初始化Animator
-     */
-    private void initAnimator() {
-        clickAnimator = new ValueAnimator().ofInt(mWidth, mHeight);
-        clickAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                buttonWidth = (int) animation.getAnimatedValue();
-                if (buttonWidth == mHeight) {
-                    bgPaint.setColor(getResources().getColor(R.color.gray));
-                }
-                invalidate();
-            }
-        });
-        clickAnimator.setDuration(500);
-        clickAnimator.addListener(animatorListener);
-
-        loadingAnimator = new ValueAnimator().ofFloat(0.0f, 1.0f);
-        loadingAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                percent = (float) animation.getAnimatedValue();
-                invalidate();
-            }
-        });
-        loadingAnimator.setDuration(3000);
-        loadingAnimator.addListener(animatorListener);
-
-
-        resultAnimator = new ValueAnimator().ofInt(mHeight, mWidth);
-        resultAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                buttonWidth = (int) animation.getAnimatedValue();
-                resultPaint.setAlpha(((buttonWidth - mHeight) * 255) / (mWidth - mHeight));
-                if (buttonWidth == mHeight) {
-                    bgPaint.setColor(getResources().getColor(R.color.green1));
-                }
-                invalidate();
-            }
-        });
-        resultAnimator.setDuration(500);
-        resultAnimator.addListener(animatorListener);
-    }
-
-    private Animator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
-        @Override
-        public void onAnimationStart(Animator animation) {
-
-        }
-
-        @Override
-        public void onAnimationEnd(Animator animation) {
-            switch (ViewState) {
-                case 1:
-                    ViewState = 2;
-                    mHandler.sendEmptyMessage(0);
-                    break;
-                case 2:
-                    mHandler.sendEmptyMessage(0);
-                    break;
-                case 3:
-                    break;
-            }
-        }
-
-        @Override
-        public void onAnimationCancel(Animator animation) {
-
-        }
-
-        @Override
-        public void onAnimationRepeat(Animator animation) {
-
-        }
-    };
-
-
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mWidth = w - 10;
-        mHeight = h - 10;
+        mWidth = w - h / 20;
+        mHeight = h - h / 20;
         buttonWidth = mWidth;
 
-        initRectF();
+        initPaint();
+        initRecF();
         initPath();
+        initValueAnimator();
         initHandler();
-        initAnimator();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.translate((mWidth + 10) / 2, (mHeight + 10) / 2);
+        canvas.translate((mWidth + mHeight / 20) / 2, (mHeight + mHeight / 20) / 2);
 
         oval1.set(-buttonWidth / 2, -mHeight / 2, -buttonWidth / 2 + mHeight, mHeight / 2);
         oval2.set(buttonWidth / 2 - mHeight, -mHeight / 2, buttonWidth / 2, mHeight / 2);
 
-        canvas.drawArc(oval1, 90, 180, false, bgPaint);
-        canvas.drawLine(-buttonWidth / 2 + mHeight / 2, -mHeight / 2, buttonWidth / 2 - mHeight / 2, -mHeight / 2, bgPaint);
-        canvas.drawArc(oval2, 270, 180, false, bgPaint);
-        canvas.drawLine(-buttonWidth / 2 + mHeight / 2, mHeight / 2, buttonWidth / 2 - mHeight / 2, mHeight / 2, bgPaint);
+        buttonPath.reset();
+        buttonPath.arcTo(oval1, 90, 180);
+        buttonPath.lineTo(buttonWidth / 2 - mHeight / 2, -mHeight / 2);
+        buttonPath.arcTo(oval2, 270, 180);
+        buttonPath.lineTo(-buttonWidth / 2 + mHeight / 2, mHeight / 2);
+
+        canvas.drawPath(buttonPath, bgPaint);
+
         if (ViewState == 2) {
-            Path dst = new Path();
-            float startD = pathMeasure.getLength() * percent;
-            float stopD = startD + pathMeasure.getLength() / 2 * percent;
+            dst.reset();
+            float startD = pathMeasure.getLength() * loadValue;
+            float stopD = startD + pathMeasure.getLength() / 2 * loadValue;
             pathMeasure.getSegment(startD, stopD, dst, true);
             canvas.drawPath(dst, loadingPaint);
         }
@@ -264,7 +253,6 @@ public class SubmitButton extends View {
             }
 
         }
-
     }
 
     public void doClickAnimation() {
@@ -275,9 +263,7 @@ public class SubmitButton extends View {
         mHandler.sendEmptyMessage(0);
     }
 
-    /**
-     * @param isSucceed
-     */
+
     public void doResultAnimation(boolean isSucceed) {
         if (ViewState != 2) {
             return;
