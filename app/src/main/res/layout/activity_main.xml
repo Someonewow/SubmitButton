@@ -6,12 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.submitbutton.Activity.MainActivity">
 
-    <com.example.submitbutton.View.SubmitButton
-        android:id="@+id/submit_btn"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_centerInParent="true" />
-
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -19,7 +13,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout">
 
         <Button
             android:id="@+id/btn_succeed"
@@ -35,5 +30,13 @@
             android:text="failure" />
 
     </LinearLayout>
+
+    <com.example.submitbutton.View.SubmitButton
+        android:id="@+id/submit_btn"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/linearLayout"
+        android:layout_alignStart="@+id/linearLayout" />
 
 </RelativeLayout>

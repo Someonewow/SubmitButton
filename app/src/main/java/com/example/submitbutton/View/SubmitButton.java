@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Message;
@@ -16,6 +17,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.widget.Toast;
 
@@ -32,7 +34,12 @@ public class SubmitButton extends View {
     private int mHeight;
     private int buttonWidth;
 
+    private String text = "Submit";
+    private float textWidth;
+    private float textHeight;
+
     private Paint bgPaint;
+    private Paint textPaint;
     private Paint loadingPaint;
     private Paint resultPaint;
 
@@ -84,6 +91,17 @@ public class SubmitButton extends View {
         bgPaint.setStrokeWidth(mHeight / 20);
         bgPaint.setAntiAlias(true);
 
+        textPaint = new Paint();
+        textPaint.setColor(getResources().getColor(R.color.green1));
+        textPaint.setStyle(Paint.Style.FILL);
+        textPaint.setTextSize(mHeight / 3);
+        textPaint.setAntiAlias(true);
+
+        Rect rect = new Rect();
+        textPaint.getTextBounds(text, 0, text.length(), rect);
+        textWidth = rect.width();
+        textHeight = rect.height();
+
         loadingPaint = new Paint();
         loadingPaint.setColor(getResources().getColor(R.color.green1));
         loadingPaint.setStyle(Paint.Style.STROKE);
@@ -91,9 +109,10 @@ public class SubmitButton extends View {
         loadingPaint.setAntiAlias(true);
 
         resultPaint = new Paint();
-        resultPaint.setColor(getResources().getColor(R.color.green1));
+        resultPaint.setColor(getResources().getColor(R.color.white));
         resultPaint.setStyle(Paint.Style.STROKE);
         resultPaint.setStrokeWidth(mHeight / 20);
+        resultPaint.setStrokeCap(Paint.Cap.ROUND);
         resultPaint.setAntiAlias(true);
     }
 
@@ -149,12 +168,14 @@ public class SubmitButton extends View {
             public void onAnimationUpdate(ValueAnimator animation) {
                 buttonWidth = (int) animation.getAnimatedValue();
                 if (buttonWidth == mHeight) {
+                    bgPaint.setStyle(Paint.Style.STROKE);
                     bgPaint.setColor(getResources().getColor(R.color.gray));
                 }
                 invalidate();
             }
         });
         clickAnimator.setDuration(500);
+        clickAnimator.setInterpolator(new AccelerateInterpolator());
         clickAnimator.addListener(listener);
 
         loadingAnimator = new ValueAnimator().ofFloat(0.0f, 1.0f);
@@ -176,11 +197,13 @@ public class SubmitButton extends View {
                 resultPaint.setAlpha(((buttonWidth - mHeight) * 255) / (mWidth - mHeight));
                 if (buttonWidth == mHeight) {
                     bgPaint.setColor(getResources().getColor(R.color.green1));
+                    bgPaint.setStyle(Paint.Style.FILL_AND_STROKE);
                 }
                 invalidate();
             }
         });
         resultAnimator.setDuration(500);
+        resultAnimator.setInterpolator(new AccelerateInterpolator());
         resultAnimator.addListener(listener);
     }
 
@@ -233,6 +256,10 @@ public class SubmitButton extends View {
         buttonPath.lineTo(-buttonWidth / 2 + mHeight / 2, mHeight / 2);
 
         canvas.drawPath(buttonPath, bgPaint);
+        if (ViewState==0||ViewState==1&&buttonWidth > textWidth) {
+            textPaint.setAlpha((int) (((buttonWidth - textWidth) * 255) / (mWidth - textWidth)));
+            canvas.drawText(text, -textWidth / 2, textHeight / 2, textPaint);
+        }
 
         if (ViewState == 2) {
             dst.reset();
@@ -257,6 +284,9 @@ public class SubmitButton extends View {
             return;
         }
         ViewState = 1;
+        bgPaint.setColor(getResources().getColor(R.color.green1));
+        bgPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        textPaint.setColor(getResources().getColor(R.color.white));
         mHandler.sendEmptyMessage(0);
     }
 
