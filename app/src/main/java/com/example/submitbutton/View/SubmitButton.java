@@ -3,6 +3,7 @@ package com.example.submitbutton.View;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,6 +14,7 @@ import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Message;
 import android.renderscript.Sampler;
+import android.renderscript.Type;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -34,7 +36,6 @@ public class SubmitButton extends View {
     private int mHeight;
     private int buttonWidth;
 
-    private String text = "Submit";
     private float textWidth;
     private float textHeight;
 
@@ -58,6 +59,12 @@ public class SubmitButton extends View {
 
     private boolean isSucceed;
 
+    private String buttonText = "";
+    private int buttonColor;
+    private int succeedColor;
+    private int failedColor;
+
+
     /**
      * View动画状态 0-初始状态（无动画），1-点击，2-等待，3-结果
      */
@@ -79,6 +86,14 @@ public class SubmitButton extends View {
 
     public SubmitButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SubmitButton, defStyleAttr, 0);
+        if (typedArray.getString(R.styleable.SubmitButton_buttonText) != null) {
+            buttonText = typedArray.getString(R.styleable.SubmitButton_buttonText);
+        }
+        buttonColor = typedArray.getColor(R.styleable.SubmitButton_buttonColor, Color.parseColor("#19CC95"));
+        succeedColor = typedArray.getColor(R.styleable.SubmitButton_succeedColor, Color.parseColor("#19CC95"));
+        failedColor = typedArray.getColor(R.styleable.SubmitButton_failedColor, Color.parseColor("#19CC95"));
+        typedArray.recycle();
     }
 
     /**
@@ -86,30 +101,30 @@ public class SubmitButton extends View {
      */
     private void initPaint() {
         bgPaint = new Paint();
-        bgPaint.setColor(getResources().getColor(R.color.green1));
+        bgPaint.setColor(buttonColor);
         bgPaint.setStyle(Paint.Style.STROKE);
         bgPaint.setStrokeWidth(mHeight / 20);
         bgPaint.setAntiAlias(true);
 
         textPaint = new Paint();
-        textPaint.setColor(getResources().getColor(R.color.green1));
+        textPaint.setColor(buttonColor);
         textPaint.setStyle(Paint.Style.FILL);
         textPaint.setTextSize(mHeight / 3);
         textPaint.setAntiAlias(true);
 
         Rect rect = new Rect();
-        textPaint.getTextBounds(text, 0, text.length(), rect);
+        textPaint.getTextBounds(buttonText, 0, buttonText.length(), rect);
         textWidth = rect.width();
         textHeight = rect.height();
 
         loadingPaint = new Paint();
-        loadingPaint.setColor(getResources().getColor(R.color.green1));
+        loadingPaint.setColor(buttonColor);
         loadingPaint.setStyle(Paint.Style.STROKE);
         loadingPaint.setStrokeWidth(mHeight / 20);
         loadingPaint.setAntiAlias(true);
 
         resultPaint = new Paint();
-        resultPaint.setColor(getResources().getColor(R.color.white));
+        resultPaint.setColor(Color.WHITE);
         resultPaint.setStyle(Paint.Style.STROKE);
         resultPaint.setStrokeWidth(mHeight / 20);
         resultPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -196,7 +211,11 @@ public class SubmitButton extends View {
                 buttonWidth = (int) animation.getAnimatedValue();
                 resultPaint.setAlpha(((buttonWidth - mHeight) * 255) / (mWidth - mHeight));
                 if (buttonWidth == mHeight) {
-                    bgPaint.setColor(getResources().getColor(R.color.green1));
+                    if (isSucceed) {
+                        bgPaint.setColor(succeedColor);
+                    }else{
+                        bgPaint.setColor(failedColor);
+                    }
                     bgPaint.setStyle(Paint.Style.FILL_AND_STROKE);
                 }
                 invalidate();
@@ -256,9 +275,9 @@ public class SubmitButton extends View {
         buttonPath.lineTo(-buttonWidth / 2 + mHeight / 2, mHeight / 2);
 
         canvas.drawPath(buttonPath, bgPaint);
-        if (ViewState==0||ViewState==1&&buttonWidth > textWidth) {
+        if (ViewState == 0 || ViewState == 1 && buttonWidth > textWidth) {
             textPaint.setAlpha((int) (((buttonWidth - textWidth) * 255) / (mWidth - textWidth)));
-            canvas.drawText(text, -textWidth / 2, textHeight / 2, textPaint);
+            canvas.drawText(buttonText, -textWidth / 2, textHeight / 2, textPaint);
         }
 
         if (ViewState == 2) {
@@ -275,11 +294,19 @@ public class SubmitButton extends View {
                 canvas.drawPath(resultPath1, resultPaint);
                 canvas.drawPath(resultPath2, resultPaint);
             }
-
         }
     }
 
-    public void doClickAnimation() {
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            doClickAnimation();
+        }
+        return false;
+    }
+
+    private void doClickAnimation() {
         if (ViewState != 0) {
             return;
         }

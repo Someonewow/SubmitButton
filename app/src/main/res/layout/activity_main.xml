@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -8,13 +9,13 @@
 
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
-        android:orientation="horizontal"
-        android:id="@+id/linearLayout">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_succeed"
@@ -35,8 +36,11 @@
         android:id="@+id/submit_btn"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/linearLayout"
-        android:layout_alignStart="@+id/linearLayout" />
-
+        android:layout_alignStart="@+id/linearLayout"
+        android:layout_centerVertical="true"
+        app:buttonColor="@color/green1"
+        app:buttonText="Submit"
+        app:failedColor="@color/orange1"
+        app:succeedColor="@color/green1" />
 </RelativeLayout>
