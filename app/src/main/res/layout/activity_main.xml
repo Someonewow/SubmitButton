@@ -1,46 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.submitbutton.Activity.MainActivity">
+    android:orientation="vertical">
 
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <com.unstoppable.submitbuttonview.SubmitButton
+        android:id="@+id/submit_btn"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        app:buttonText="Submit"
+        app:buttonTextSize="25sp" />
+
+    <Button
+        android:id="@+id/btn_succeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:text="succeed" />
+
+    <Button
+        android:id="@+id/btn_failed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:orientation="horizontal">
+        android:layout_margin="10dp"
+        android:text="failed" />
 
-        <Button
-            android:id="@+id/btn_succeed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:text="Succeed" />
+    <Button
+        android:id="@+id/btn_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:text="reset" />
 
-        <Button
-            android:id="@+id/btn_failure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="failure" />
-
-    </LinearLayout>
-
-    <com.example.submitbutton.View.SubmitButton
-        android:id="@+id/submit_btn"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_alignLeft="@+id/linearLayout"
-        android:layout_alignStart="@+id/linearLayout"
-        android:layout_centerVertical="true"
-        app:buttonColor="@color/green1"
-        app:buttonText="Submit"
-        app:failedColor="@color/orange1"
-        app:succeedColor="@color/green1" />
 </RelativeLayout>

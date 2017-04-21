@@ -6,51 +6,52 @@
 README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.md) | [中文](https://github.com/Someonewow/SubmitButton/blob/master/README-zh.md)
 
 
->It's a submit button whit a fun animation for Android.
 
-## Demo
+>带有Loading的Android自定义View.
+
+## 示例
 
 ![submit succeed](http://oop9jkflc.bkt.clouddn.com/submitbutton_01.gif)
 
 ![submit failed](http://oop9jkflc.bkt.clouddn.com/submitbutton_02.gif)
 
-## Getting Started
+## 如何使用
 
-##### 1.Specify SubmitButton as a dependency in your build.gradle file;
+##### 1.在要使用的Module的build.gradle文件中添加依赖;
 
 	dependencies {
 		'''
     	compile 'com.unstoppable:submitbutton:1.0.1'
 	}
 
-##### 2.Add SubmitButton to the layout file;
+##### 2.布局文件中添加SubmitButton;
 
 	<com.unstoppable.submitbuttonview.SubmitButton
         android:id="@+id/submitbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-##### 3.Attribute
+##### 3.自定义属性
 
-| name          | format   | description                                           |default  |    
-|:--------------|:-----    |:------------------------------------------------------|:--------|
-|buttonColor    |color     |set the button theme color                             |#19CC95  |
-|buttonText     |String    |set the button text                                    |null     |
-|buttonTextSize |dimension |set the button text size                               |15sp     |
-|succeedColor   |color     |set the button color after the submission is successful|#19CC95  |
-|failedColor    |color     |set the button color after the submission fails        |#FC8E34  |
+| 属性名        | 类型      | 描述               |默认值    |
+|:--------------|:-----    |:------------------|:----    |
+|buttonColor    |color     |按钮主题色           | #19CC95 |
+|buttonText     |String    |按钮文本            |null     |
+|buttonTextSize |dimension |按钮文本大小         |15sp    |
+|succeedColor   |color     |submit成功按钮主题色 | #19CC95 |
+|failedColor    |color     |submit失败按钮主题色 | #FC8E34 |
 
-##### 4.Method
+##### 4.接口方法
 	
 	 /**
-     * Pass the results to show different feedback results
+     * 传入submit结果以呈现不同结果反馈效果
      *
      * @param boolean isSucceed 
      */
 	mSubmitView.doResult(isSucceed);
 
 	 /**
-     * Reset SubmitButton 
+     * 重置SubmitButton 
      */
 	mSubmitView.reset();
 

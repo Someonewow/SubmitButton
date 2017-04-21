@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SubmitButton">
+        <attr name="buttonText" format="string" />
+        <attr name="buttonColor" format="color" />
+        <attr name="succeedColor" format="color" />
+        <attr name="failedColor" format="color" />
+        <attr name="buttonTextSize" format="dimension" />
+    </declare-styleable>
+</resources>
