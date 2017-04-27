@@ -7,15 +7,15 @@ README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.
 
 
 
->带有Loading的Android自定义View.
+>带有进度动画的Android自定义提交按钮.
 
 ## 示例
 
-![submit succeed](http://oop9jkflc.bkt.clouddn.com/submitbutton_01.gif)
+![submit succeed](https://raw.githubusercontent.com/Someonewow/SubmitButton/master/screens/submitbutton_succeed.gif)
 
-![submit failed](http://oop9jkflc.bkt.clouddn.com/submitbutton_02.gif)
+![submit failed](https://raw.githubusercontent.com/Someonewow/SubmitButton/master/screens/submitbutton_failed.gif)
 
-![submit progress](http://oop9jkflc.bkt.clouddn.com/submitbutton_03.gif)
+![submit progress](https://raw.githubusercontent.com/Someonewow/SubmitButton/master/screens/submitbutton_progress.gif)
 
 ## 如何使用
 
