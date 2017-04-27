@@ -24,12 +24,12 @@ import android.view.animation.AccelerateInterpolator;
 
 public class SubmitButton extends View {
 
-
     private static final int STATE_NONE = 0;
     private static final int STATE_SUBMIT = 1;
     private static final int STATE_LOADING = 2;
     private static final int STATE_RESULT = 3;
 
+    //view状态
     private int viewState = STATE_NONE;
 
     //View宽高
@@ -69,6 +69,13 @@ public class SubmitButton extends View {
     private boolean isDoResult;
     private boolean isSucceed;
 
+    private static final int STYLE_LOADING = 0;
+    private static final int STYLE_PROGRESS = 1;
+
+    //view加载等待模式
+    private int progressStyle = STYLE_LOADING;
+    private float currentProgress;
+
     public SubmitButton(Context context) {
         this(context, null);
     }
@@ -87,10 +94,14 @@ public class SubmitButton extends View {
         succeedColor = typedArray.getColor(R.styleable.SubmitButton_succeedColor, Color.parseColor("#19CC95"));
         failedColor = typedArray.getColor(R.styleable.SubmitButton_failedColor, Color.parseColor("#FC8E34"));
         textSize = (int) typedArray.getDimension(R.styleable.SubmitButton_buttonTextSize, sp2px(15));
+        progressStyle = typedArray.getInt(R.styleable.SubmitButton_progressStyle, STYLE_LOADING);
         typedArray.recycle();
         init();
     }
 
+    /**
+     * 初始化Paint、Path
+     */
     private void init() {
         bgPaint = new Paint();
         bgPaint.setColor(buttonColor);
@@ -164,7 +175,7 @@ public class SubmitButton extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.translate(x, y);
-        drawButtonBg(canvas);
+        drawButton(canvas);
         if (viewState == STATE_NONE || viewState == STATE_SUBMIT && mWidth > textWidth) {
             drawButtonText(canvas);
         }
@@ -181,7 +192,7 @@ public class SubmitButton extends View {
      *
      * @param canvas 画布
      */
-    private void drawButtonBg(Canvas canvas) {
+    private void drawButton(Canvas canvas) {
         buttonPath.reset();
         circleLeft.set(-mWidth / 2, -mHeight / 2, -mWidth / 2 + mHeight, mHeight / 2);
         buttonPath.arcTo(circleLeft, 90, 180);
@@ -202,8 +213,13 @@ public class SubmitButton extends View {
         circleMid.set(-MAX_HEIGHT / 2, -MAX_HEIGHT / 2, MAX_HEIGHT / 2, MAX_HEIGHT / 2);
         loadPath.addArc(circleMid, 270, 359.999f);
         pathMeasure.setPath(loadPath, true);
-        float startD = pathMeasure.getLength() * loadValue;
-        float stopD = startD + pathMeasure.getLength() / 2 * loadValue;
+        float startD = 0f, stopD;
+        if (progressStyle == STYLE_LOADING) {
+            startD = pathMeasure.getLength() * loadValue;
+            stopD = startD + pathMeasure.getLength() / 2 * loadValue;
+        } else {
+            stopD = pathMeasure.getLength() * currentProgress;
+        }
         pathMeasure.getSegment(startD, stopD, dst, true);
         canvas.drawPath(dst, loadingPaint);
     }
@@ -288,6 +304,9 @@ public class SubmitButton extends View {
      */
     private void startLoadingAnim() {
         viewState = STATE_LOADING;
+        if (progressStyle == STYLE_PROGRESS) {
+            return;
+        }
         loadingAnim = new ValueAnimator().ofFloat(0.0f, 1.0f);
         loadingAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -305,10 +324,10 @@ public class SubmitButton extends View {
      * 开始结果动画
      */
     private void startResultAnim() {
+        viewState = STATE_RESULT;
         if (loadingAnim != null) {
             loadingAnim.cancel();
         }
-        viewState = STATE_RESULT;
         resultAnim = new ValueAnimator().ofInt(MAX_HEIGHT, MAX_WIDTH);
         resultAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -376,8 +395,24 @@ public class SubmitButton extends View {
         mHeight = MAX_HEIGHT;
         isSucceed = false;
         isDoResult = false;
+        currentProgress = 0;
         init();
         invalidate();
+    }
+
+    /**
+     * 设置进度
+     *
+     * @param progress 进度值 (0-100)
+     */
+    public void setProgress(int progress) {
+        if (progress < 0 || progress > 100) {
+            return;
+        }
+        currentProgress = (float) (progress * 0.01);
+        if (progressStyle == STYLE_PROGRESS && viewState == STATE_LOADING) {
+            invalidate();
+        }
     }
 
     /**
@@ -401,15 +436,26 @@ public class SubmitButton extends View {
         return -(fm.bottom + fm.top) / 2;
     }
 
-    //获取Text高度
+    /**
+     * 获取Text高度
+     *
+     * @param paint
+     * @param str   文本内容
+     * @return
+     */
     private int getTextHeight(Paint paint, String str) {
         Rect rect = new Rect();
         paint.getTextBounds(str, 0, str.length(), rect);
-        Log.i("TEST", String.valueOf(paint.ascent() + paint.descent()));
         return rect.height();
     }
 
-    //获取Text宽度
+    /**
+     * 获取Text宽度
+     *
+     * @param paint
+     * @param str   文本内容
+     * @return
+     */
     private int getTextWidth(Paint paint, String str) {
         int mRet = 0;
         if (str != null && str.length() > 0) {

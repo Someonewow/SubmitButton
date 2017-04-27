@@ -14,13 +14,15 @@ README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.
 
 ![submit failed](http://oop9jkflc.bkt.clouddn.com/submitbutton_02.gif)
 
+![submit progress](http://oop9jkflc.bkt.clouddn.com/submitbutton_03.gif)
+
 ## Getting Started
 
 ##### 1.Specify SubmitButton as a dependency in your build.gradle file;
 
 	dependencies {
 		'''
-    	compile 'com.unstoppable:submitbutton:1.0.1'
+    	compile 'com.unstoppable:submitbutton:1.1.0'
 	}
 
 ##### 2.Add SubmitButton to the layout file;
@@ -39,6 +41,7 @@ README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.
 |buttonTextSize |dimension |set the button text size                               |15sp     |
 |succeedColor   |color     |set the button color after the submission is successful|#19CC95  |
 |failedColor    |color     |set the button color after the submission fails        |#FC8E34  |
+|progressStyle  |enum      |set the button progress style (Optional:loading or progress) |loading|
 
 ##### 4.Method
 	
@@ -53,6 +56,28 @@ README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.
      * Reset SubmitButton 
      */
 	mSubmitView.reset();
+
+    /**
+     * set progress(This method is valid only if progressStyle is set to progress)
+     *
+     * @param progress 进度值 (0-100)
+     */
+    mSubmitView.setProgress();
+
+
+## Changelog
+
+#### Current Version:1.1.0
+
+- **Add progress style setting mothod.**
+
+#### Version:1.0.1
+
+- **Bug fixes.**
+
+#### Version:1.0.0
+
+- **Initial Build.**
 
 ## License
 

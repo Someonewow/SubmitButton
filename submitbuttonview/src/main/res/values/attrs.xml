@@ -6,5 +6,9 @@
         <attr name="succeedColor" format="color" />
         <attr name="failedColor" format="color" />
         <attr name="buttonTextSize" format="dimension" />
+        <attr name="progressStyle" format="enum">
+            <enum name="loading" value="0" />
+            <enum name="progress" value="1" />
+        </attr>
     </declare-styleable>
 </resources>

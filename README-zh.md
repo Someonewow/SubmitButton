@@ -15,13 +15,15 @@ README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.
 
 ![submit failed](http://oop9jkflc.bkt.clouddn.com/submitbutton_02.gif)
 
+![submit progress](http://oop9jkflc.bkt.clouddn.com/submitbutton_03.gif)
+
 ## 如何使用
 
 ##### 1.在要使用的Module的build.gradle文件中添加依赖;
 
 	dependencies {
 		'''
-    	compile 'com.unstoppable:submitbutton:1.0.1'
+    	compile 'com.unstoppable:submitbutton:1.1.0'
 	}
 
 ##### 2.布局文件中添加SubmitButton;
@@ -40,6 +42,7 @@ README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.
 |buttonTextSize |dimension |按钮文本大小         |15sp    |
 |succeedColor   |color     |submit成功按钮主题色 | #19CC95 |
 |failedColor    |color     |submit失败按钮主题色 | #FC8E34 |
+|progressStyle  |enum      |设置进度样式（可选：loading 或 progress）|loading|
 
 ##### 4.接口方法
 	
@@ -54,6 +57,27 @@ README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.
      * 重置SubmitButton 
      */
 	mSubmitView.reset();
+
+    /**
+     * 设置进度(该方法仅在progressStyle设置为progress时有效)
+     *
+     * @param progress 进度值 (0-100)
+     */
+    mSubmitView.setProgress();
+
+## 更新日志
+
+#### 当前版本：1.1.0
+
+- **新增进度样式设置方法**
+
+#### 版本：1.0.1
+
+- **修复问题**
+
+#### 版本：1.0.0
+
+- **初始构建**
 
 ## License
 
