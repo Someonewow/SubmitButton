@@ -41,7 +41,7 @@ publish {
     groupId = 'com.unstoppable'
     artifactId = 'submitbutton'
     publishVersion = '1.1.0'
-    desc = 'It\'s a submit button whit a fun animation for Android.'
+    desc = 'It\'s a submit button with a fun animation for Android.'
     website = 'https://github.com/Someonewow/SubmitButton'
 }
 
