@@ -60,7 +60,7 @@ README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.
     /**
      * set progress(This method is valid only if progressStyle is set to progress)
      *
-     * @param progress 进度值 (0-100)
+     * @param progress (0-100)
      */
     mSubmitView.setProgress();
 
