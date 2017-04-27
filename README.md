@@ -1,6 +1,6 @@
 ## SubmitButto
 
-[![Travis](https://img.shields.io/badge/download-1.1.0-brightgreen.svg](https://bintray.com/unstoppable/maven/submitbutton/1.1.0)
+[![Travis](https://img.shields.io/badge/download-1.1.0-brightgreen.svg)](https://bintray.com/unstoppable/maven/submitbutton/1.1.0)
 
 
 README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.md) | [中文](https://github.com/Someonewow/SubmitButton/blob/master/README-zh.md)
