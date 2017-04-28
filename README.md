@@ -1,4 +1,4 @@
-## SubmitButto
+## SubmitButton
 
 [![Travis](https://img.shields.io/badge/download-1.1.0-brightgreen.svg)](https://bintray.com/unstoppable/maven/submitbutton/1.1.0)
 
