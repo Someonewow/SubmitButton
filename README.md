@@ -6,7 +6,7 @@
 README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.md) | [中文](https://github.com/Someonewow/SubmitButton/blob/master/README-zh.md)
 
 
->It's a submit button with a fun animation for Android.
+>A submit button with a fun animation for Android.
 
 ## Demo
 
