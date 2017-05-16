@@ -1,6 +1,6 @@
-## SubmitButton
+## SubmitButto
 
-[![Travis](https://img.shields.io/badge/download-1.1.0-brightgreen.svg)](https://bintray.com/unstoppable/maven/submitbutton/1.1.0)
+[![Travis](https://img.shields.io/badge/download-1.0.1-brightgreen.svg)](https://bintray.com/unstoppable/maven/submitbutton/1.0.1)
 
 
 README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.md) | [中文](https://github.com/Someonewow/SubmitButton/blob/master/README-zh.md)
@@ -23,7 +23,7 @@ README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.
 
 	dependencies {
 		'''
-    	compile 'com.unstoppable:submitbutton:1.1.0'
+    	compile 'com.unstoppable:submitbutton:1.1.1'
 	}
 
 ##### 2.布局文件中添加SubmitButton;
@@ -65,9 +65,22 @@ README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.
      */
     mSubmitView.setProgress();
 
+    /**
+     * 设置动画结束回调接口
+     *
+     * @param listener
+     */
+    mSubmitView.setOnResultEndListener(OnResultEndListener listener)
+
 ## 更新日志
 
-#### 当前版本：1.1.0
+#### 当前版本:1.1.1
+
+- **增加结果动画结束回调接口**
+
+- **修复问题**
+
+#### 版本：1.1.0
 
 - **新增进度样式设置方法**
 

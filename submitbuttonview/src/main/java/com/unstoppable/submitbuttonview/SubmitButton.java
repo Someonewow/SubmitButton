@@ -76,6 +76,8 @@ public class SubmitButton extends View {
     private int progressStyle = STYLE_LOADING;
     private float currentProgress;
 
+    private OnResultEndListener listener;
+
     public SubmitButton(Context context) {
         this(context, null);
     }
@@ -345,6 +347,35 @@ public class SubmitButton extends View {
                 invalidate();
             }
         });
+        resultAnim.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (listener == null) {
+                    return;
+                }
+                postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        listener.onResultEnd();
+                    }
+                }, 500);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
         resultAnim.setDuration(300);
         resultAnim.setInterpolator(new AccelerateInterpolator());
         resultAnim.start();
@@ -359,6 +390,21 @@ public class SubmitButton extends View {
                 }
         }
         return super.onTouchEvent(event);
+    }
+
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (submitAnim != null) {
+            submitAnim.cancel();
+        }
+        if (loadingAnim != null) {
+            loadingAnim.cancel();
+        }
+        if (resultAnim != null) {
+            resultAnim.cancel();
+        }
     }
 
     /**
@@ -413,6 +459,22 @@ public class SubmitButton extends View {
         if (progressStyle == STYLE_PROGRESS && viewState == STATE_LOADING) {
             invalidate();
         }
+    }
+
+    /**
+     * 设置动画结束回调接口
+     *
+     * @param listener
+     */
+    public void setOnResultEndListener(OnResultEndListener listener) {
+        this.listener = listener;
+    }
+
+    /**
+     * 结果动画结束回调接口
+     */
+    public interface OnResultEndListener {
+        void onResultEnd();
     }
 
     /**

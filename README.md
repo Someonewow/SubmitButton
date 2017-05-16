@@ -1,12 +1,12 @@
-## SubmitButton
+## SubmitButto
 
-[![Travis](https://img.shields.io/badge/download-1.1.0-brightgreen.svg)](https://bintray.com/unstoppable/maven/submitbutton/1.1.0)
+[![Travis](https://img.shields.io/badge/download-1.0.1-brightgreen.svg)](https://bintray.com/unstoppable/maven/submitbutton/1.0.1)
 
 
 README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.md) | [中文](https://github.com/Someonewow/SubmitButton/blob/master/README-zh.md)
 
 
->A submit button with a fun animation for Android.
+>It's a submit button with a fun animation for Android.
 
 ## Demo
 
@@ -22,7 +22,7 @@ README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.
 
 	dependencies {
 		'''
-    	compile 'com.unstoppable:submitbutton:1.1.0'
+    	compile 'com.unstoppable:submitbutton:1.1.1'
 	}
 
 ##### 2.Add SubmitButton to the layout file;
@@ -50,7 +50,7 @@ README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.
      *
      * @param boolean isSucceed 
      */
-	mSubmitView.doResult(isSucceed);
+	mSubmitView.doResult(boolean isSucceed);
 
 	 /**
      * Reset SubmitButton 
@@ -64,10 +64,22 @@ README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.
      */
     mSubmitView.setProgress();
 
+    /**
+     * set the animation end callback interface
+     *
+     * @param listener
+     */
+    mSubmitView.setOnResultEndListener(OnResultEndListener listener)
 
 ## Changelog
 
-#### Current Version:1.1.0
+#### Current Version:1.1.1
+
+- **Add animation end callback interface.**
+
+- **Bug fixes.**
+
+#### Version:1.1.0
 
 - **Add progress style setting mothod.**
 
