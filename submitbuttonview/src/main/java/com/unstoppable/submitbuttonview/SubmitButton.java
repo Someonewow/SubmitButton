@@ -447,6 +447,28 @@ public class SubmitButton extends View {
     }
 
     /**
+     * Set Button to Result State
+     *
+     * @param success true = result success; false = failure
+     */
+    public void setResult(boolean success)
+    {
+        isSucceed = success;
+        viewState = STATE_RESULT;
+        if (loadingAnim != null) {
+            loadingAnim.cancel();
+        }
+        if (isSucceed) {
+            bgPaint.setColor(succeedColor);
+        } else {
+            bgPaint.setColor(failedColor);
+        }
+        bgPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        resultPaint.setAlpha(255);
+        invalidate();
+    }
+
+    /**
      * 设置进度
      *
      * @param progress 进度值 (0-100)
