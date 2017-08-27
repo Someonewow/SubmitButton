@@ -1,6 +1,6 @@
 ## SubmitButto
 
-[![Travis](https://img.shields.io/badge/download-1.1.1-brightgreen.svg)](https://bintray.com/unstoppable/maven/submitbutton/1.1.1)
+[![Travis](https://img.shields.io/badge/download-1.1.2-brightgreen.svg)](https://bintray.com/unstoppable/maven/submitbutton/1.1.2)
 
 
 README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.md) | [中文](https://github.com/Someonewow/SubmitButton/blob/master/README-zh.md)
@@ -23,7 +23,7 @@ README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.
 
 	dependencies {
 		'''
-    	compile 'com.unstoppable:submitbutton:1.1.1'
+    	compile 'com.unstoppable:submitbutton:1.1.2'
 	}
 
 ##### 2.布局文件中添加SubmitButton;
@@ -74,7 +74,12 @@ README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.
 
 ## 更新日志
 
-#### 当前版本:1.1.1
+#### 当前版本:1.1.2
+
+- **修复由于硬件加速导致的在某些机型上无法绘制动画的问题**
+
+
+#### 版本:1.1.1
 
 - **增加结果动画结束回调接口**
 

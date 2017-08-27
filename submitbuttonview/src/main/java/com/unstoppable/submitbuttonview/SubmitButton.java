@@ -98,6 +98,8 @@ public class SubmitButton extends View {
         textSize = (int) typedArray.getDimension(R.styleable.SubmitButton_buttonTextSize, sp2px(15));
         progressStyle = typedArray.getInt(R.styleable.SubmitButton_progressStyle, STYLE_LOADING);
         typedArray.recycle();
+        //关闭硬件加速
+        this.setLayerType(LAYER_TYPE_SOFTWARE,null);
         init();
     }
 
