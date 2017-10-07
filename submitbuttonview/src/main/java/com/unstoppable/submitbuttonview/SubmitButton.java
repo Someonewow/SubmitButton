@@ -11,9 +11,7 @@ import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -468,6 +466,16 @@ public class SubmitButton extends View {
         bgPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         resultPaint.setAlpha(255);
         invalidate();
+    }
+
+    /**
+     * Set Button to Loading State
+     */
+    public void setLoading()
+    {
+        viewState = STATE_LOADING;
+        mWidth = mHeight;
+        startLoadingAnim();
     }
 
     /**
