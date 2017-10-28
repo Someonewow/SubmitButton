@@ -25,6 +25,5 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':submitbuttonview')
 
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:appcompat-v7:26.1.0'
 }

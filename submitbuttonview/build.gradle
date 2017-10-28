@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
 group='com.github.searchy2'
-version = '1.3'
+version = '1.4'
 
 android {
     compileSdkVersion 26
@@ -35,5 +35,5 @@ dependencies {
         maven { url "https://maven.google.com" }
     }
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.android.support:appcompat-v7:26.1.0'
 }
