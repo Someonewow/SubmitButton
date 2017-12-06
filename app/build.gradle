@@ -19,9 +19,6 @@ android {
 }
 
 dependencies {
-    repositories {
-        maven { url "https://maven.google.com" }
-    }
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':submitbuttonview')
 
