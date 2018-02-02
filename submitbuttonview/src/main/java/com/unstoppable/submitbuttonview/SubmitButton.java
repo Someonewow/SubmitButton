@@ -494,6 +494,21 @@ public class SubmitButton extends View {
     }
 
     /**
+     * Set Button text. Redraws button if text is visible.
+     *
+     * @param text Text to display on button.
+     */
+    public void setText(String text)
+    {
+        buttonText = text;
+        if (viewState == STATE_NONE)
+        {
+            init();
+            invalidate();
+        }
+    }
+
+    /**
      * 设置动画结束回调接口
      *
      * @param listener
