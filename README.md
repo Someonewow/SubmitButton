@@ -1,6 +1,6 @@
-## SubmitButto
+## SubmitButton
 
-[![Travis](https://img.shields.io/badge/download-1.1.2-brightgreen.svg)](https://bintray.com/unstoppable/maven/submitbutton/1.1.2)
+[![Travis](https://img.shields.io/badge/download-1.1.3-brightgreen.svg)](https://bintray.com/unstoppable/maven/submitbutton/1.1.3)
 
 
 README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.md) | [中文](https://github.com/Someonewow/SubmitButton/blob/master/README-zh.md)
@@ -22,7 +22,7 @@ README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.
 
 	dependencies {
 		'''
-    	compile 'com.unstoppable:submitbutton:1.1.2'
+    	compile 'com.unstoppable:submitbutton:1.1.3'
 	}
 
 ##### 2.Add SubmitButton to the layout file;
@@ -73,7 +73,11 @@ README: [English](https://github.com/Someonewow/SubmitButton/blob/master/README.
 
 ## Changelog
 
-#### Current Version:1.1.2
+#### Current Version:1.1.3
+
+- **Made some improvements.**
+
+#### Version:1.1.2
 
 - **Fix bugs that can not be displayed on some phones because of         	HardwareAccelerated.**
 

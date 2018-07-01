@@ -39,6 +39,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnFailed.setOnClickListener(this);
         btnReset.setOnClickListener(this);
 
+
+        sBtnLoading.setOnResultEndListener(new SubmitButton.OnResultEndListener() {
+            @Override
+            public void onResultEnd() {
+                Toast.makeText(MainActivity.this, "ResultEnd", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

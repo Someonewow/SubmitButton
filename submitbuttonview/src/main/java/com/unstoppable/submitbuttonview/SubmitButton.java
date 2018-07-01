@@ -97,7 +97,7 @@ public class SubmitButton extends View {
         progressStyle = typedArray.getInt(R.styleable.SubmitButton_progressStyle, STYLE_LOADING);
         typedArray.recycle();
         //关闭硬件加速
-        this.setLayerType(LAYER_TYPE_SOFTWARE,null);
+        this.setLayerType(LAYER_TYPE_SOFTWARE, null);
         init();
     }
 
@@ -387,6 +387,8 @@ public class SubmitButton extends View {
             case MotionEvent.ACTION_UP:
                 if (viewState == STATE_NONE) {
                     startSubmitAnim();
+                } else {
+                    return true;
                 }
         }
         return super.onTouchEvent(event);
@@ -492,6 +494,7 @@ public class SubmitButton extends View {
             invalidate();
         }
     }
+
 
     /**
      * Set Button text. Redraws button if text is visible.
