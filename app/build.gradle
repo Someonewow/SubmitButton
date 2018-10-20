@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.unstoppable.submitbutton"
         minSdkVersion 15
@@ -22,5 +21,5 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':submitbuttonview')
 
-    implementation 'androidx.appcompat:appcompat:1.0.0-alpha3'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
 }
