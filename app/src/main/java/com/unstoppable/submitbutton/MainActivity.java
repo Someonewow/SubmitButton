@@ -2,7 +2,7 @@ package com.unstoppable.submitbutton;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
@@ -25,13 +25,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sBtnLoading = (SubmitButton) findViewById(R.id.sbtn_loading);
-        sBtnProgress = (SubmitButton) findViewById(R.id.sbtn_progress);
-        mSwitch = (Switch) findViewById(R.id.switch1);
+        sBtnLoading = findViewById(R.id.sbtn_loading);
+        sBtnProgress = findViewById(R.id.sbtn_progress);
+        mSwitch = findViewById(R.id.switch1);
 
-        btnFailed = (Button) findViewById(R.id.btn_failed);
-        btnSucceed = (Button) findViewById(R.id.btn_succeed);
-        btnReset = (Button) findViewById(R.id.btn_reset);
+        btnFailed = findViewById(R.id.btn_failed);
+        btnSucceed = findViewById(R.id.btn_succeed);
+        btnReset = findViewById(R.id.btn_reset);
 
         sBtnLoading.setOnClickListener(this);
         sBtnProgress.setOnClickListener(this);

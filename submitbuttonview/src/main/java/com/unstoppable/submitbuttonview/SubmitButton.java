@@ -11,9 +11,7 @@ import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -451,6 +449,38 @@ public class SubmitButton extends View {
     }
 
     /**
+     * Set Button to Result State
+     *
+     * @param success true = result success; false = failure
+     */
+    public void setResult(boolean success)
+    {
+        isSucceed = success;
+        viewState = STATE_RESULT;
+        if (loadingAnim != null) {
+            loadingAnim.cancel();
+        }
+        if (isSucceed) {
+            bgPaint.setColor(succeedColor);
+        } else {
+            bgPaint.setColor(failedColor);
+        }
+        bgPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        resultPaint.setAlpha(255);
+        invalidate();
+    }
+
+    /**
+     * Set Button to Loading State
+     */
+    public void setLoading()
+    {
+        viewState = STATE_LOADING;
+        mWidth = mHeight;
+        startLoadingAnim();
+    }
+
+    /**
      * 设置进度
      *
      * @param progress 进度值 (0-100)
@@ -465,6 +495,21 @@ public class SubmitButton extends View {
         }
     }
 
+
+    /**
+     * Set Button text. Redraws button if text is visible.
+     *
+     * @param text Text to display on button.
+     */
+    public void setText(String text)
+    {
+        buttonText = text;
+        if (viewState == STATE_NONE)
+        {
+            init();
+            invalidate();
+        }
+    }
 
     /**
      * 设置动画结束回调接口
